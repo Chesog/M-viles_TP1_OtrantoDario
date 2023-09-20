@@ -39,11 +39,13 @@ public class GameManager : MonoBehaviour {
 
     //--------------------------------------------------------//
 
-    void Awake() {
+    void Awake()
+    {
         GameManager.Instancia = this;
     }
 
-    IEnumerator Start() {
+    IEnumerator Start()
+    {
         yield return null;
         IniciarTutorial();
     }
