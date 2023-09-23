@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,9 +23,10 @@ public class Visualizacion : MonoBehaviour
 	public Camera CamCalibracion;
 	public Camera CamConduccion;
 	public Camera CamDescarga;
+	public Camera CamMenu;
 
     //EL DINERO QUE SE TIENE
-    public Text Dinero;
+    public TextMeshProUGUI Dinero;
 	
 	//EL VOLANTE
 	public Transform volante;
@@ -97,15 +99,27 @@ public class Visualizacion : MonoBehaviour
 		CamCalibracion.enabled = true;
 		CamConduccion.enabled = false;
 		CamDescarga.enabled = false;
+		CamMenu.enabled = false;
 
         Array.ForEach(enableInPlayerStates, e => e.SetPlayerState(Pj.EstAct));
     }
-	
+
+	public void CambiarAMenu()
+	{
+		CamCalibracion.enabled = false;
+		CamConduccion.enabled = false;
+		CamDescarga.enabled = false;
+		CamMenu.enabled = true;
+
+		Array.ForEach(enableInPlayerStates, e => e.SetPlayerState(Pj.EstAct));
+	}
+
 	public void CambiarAConduccion()
 	{
 		CamCalibracion.enabled = false;
 		CamConduccion.enabled = true;
 		CamDescarga.enabled = false;
+		CamMenu.enabled = false;
 
         Array.ForEach(enableInPlayerStates, e => e.SetPlayerState(Pj.EstAct));
     }
@@ -115,6 +129,7 @@ public class Visualizacion : MonoBehaviour
 		CamCalibracion.enabled = false;
 		CamConduccion.enabled = false;
 		CamDescarga.enabled = true;
+		CamMenu.enabled = false;
 
         Array.ForEach(enableInPlayerStates, e => e.SetPlayerState(Pj.EstAct));
     }

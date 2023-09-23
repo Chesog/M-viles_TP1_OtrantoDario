@@ -32,20 +32,21 @@ public class ContrCalibracion : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        if(EstAct == ContrCalibracion.Estados.Calibrando && Pj.Seleccionado) {
-			IniciarTesteo();
-		}
-		if(EstAct == ContrCalibracion.Estados.Tutorial)
-		{
-			if(Tempo2 < TiempEspCalib)
-			{
-				Tempo2 += T.GetDT();
-				if(Tempo2 > TiempEspCalib)
-				{
-					 SetActivComp(true);
-				}
-			}
-		}
+		SetActivComp(true);
+      //  if(EstAct == ContrCalibracion.Estados.Calibrando && Pj.Seleccionado) {
+	//		IniciarTesteo();
+	//	}
+	//	if(EstAct == ContrCalibracion.Estados.Tutorial)
+	//	{
+	//		if(Tempo2 < TiempEspCalib)
+	//		{
+	//			Tempo2 += T.GetDT();
+	//			if(Tempo2 > TiempEspCalib)
+	//			{
+	//				 SetActivComp(true);
+	//			}
+	//		}
+	//	}
 		
 	}
 

@@ -3,14 +3,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using System.Collections;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instancia;
 
     public float TiempoDeJuego = 60;
 
-    public enum EstadoJuego { Calibrando, Jugando, Finalizado }
-    public EstadoJuego EstAct = EstadoJuego.Calibrando;
+    public enum EstadoJuego { Calibrando, Jugando,Menu, Finalizado }
+    public EstadoJuego EstAct = EstadoJuego.Menu;
 
     public Player Player1;
     public Player Player2;
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour {
     public GameObject[] ObjsCalibracion2;
     //la pista de carreras
     public GameObject[] ObjsCarrera;
+    // Escena Menu
+    public GameObject MenuCambas;
 
     //--------------------------------------------------------//
 
@@ -47,7 +50,9 @@ public class GameManager : MonoBehaviour {
     IEnumerator Start()
     {
         yield return null;
-        IniciarTutorial();
+        //IniciarTutorial();
+        //  CambiarACarrera();
+        EmpezarMenu();
     }
 
     void Update() {
@@ -145,7 +150,17 @@ public class GameManager : MonoBehaviour {
         ConteoInicio.gameObject.SetActive(false);
     }
 
-    void EmpezarCarrera() {
+    public void EmpezarMenu()
+    {
+        Player1.CambiarAMenu();
+        Player2.CambiarAMenu();
+        
+        TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
+        ConteoInicio.gameObject.SetActive(false);
+        MenuCambas.SetActive(true);
+    }
+
+    public void EmpezarCarrera() {
         Player1.GetComponent<Frenado>().RestaurarVel();
         Player1.GetComponent<ControlDireccion>().Habilitado = true;
 
@@ -210,7 +225,7 @@ public class GameManager : MonoBehaviour {
     //}
 
     //cambia a modo de carrera
-    void CambiarACarrera() {
+    public void CambiarACarrera() {
 
         EstAct = GameManager.EstadoJuego.Jugando;
 
@@ -230,6 +245,8 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < ObjsCalibracion2.Length; i++) {
             ObjsCalibracion2[i].SetActive(false);
         }
+        
+        MenuCambas.SetActive(false);
 
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten
@@ -262,6 +279,14 @@ public class GameManager : MonoBehaviour {
 
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
+    }
+
+    public void CerrarElJuego()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#endif
     }
 
     public void FinCalibracion(int playerID) {
