@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-public class EnemiesManager
+public class EnemiesManager : MonoBehaviour
 {
     List<IProduct> enemies = new List<IProduct>();
+    private List<Transform> enemiesSpawnPos;
     public int _boxCuantity = 1;
     public int _conoCuantity = 1;
     public int _taxiCuantity = 1;
@@ -15,7 +17,7 @@ public class EnemiesManager
             enemies[i].Update();
         }
     }
-    void start()
+    void Start()
     {
         Creator c = null;
         c = new BoxCreator();

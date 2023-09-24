@@ -7,6 +7,7 @@ class Taxi : Enemy, IProduct
 
     public void Update()
     {
+        //aplicar Flyweight
         throw new System.NotImplementedException();
     }
 

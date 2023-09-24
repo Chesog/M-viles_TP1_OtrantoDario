@@ -1,10 +1,10 @@
 {
     "m_SelectedDeviceId": "CQ30007CHK",
     "m_SelectedPackage": {
-        "deviceId": "CQ30007CHK",
-        "name": "com.Cheso.MobileDevTP1",
-        "processId": 7927,
-        "exited": true
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
+        "exited": false
     },
     "m_SelectedPriority": 0,
     "m_KnownPackagesForSerialization": [
@@ -18,6 +18,12 @@
             "deviceId": "CQ30007CHK",
             "name": "com.Cheso.MobileDevTP1",
             "processId": 7927,
+            "exited": true
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 18279,
             "exited": true
         }
     ],
