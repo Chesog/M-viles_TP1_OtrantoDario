@@ -6,6 +6,7 @@ public class InputManager
 {
     private float giro;
     private Dictionary<string, float> axisValues = new Dictionary<string, float>();
+    private Dictionary<string, bool> buttonValues = new Dictionary<string, bool>();
     private static InputManager instance;
 
     public static InputManager Instance
@@ -44,6 +45,34 @@ public class InputManager
 #endif
 #if UNITY_STANDALONE
         Input.GetAxis(inputName);
+#endif
+    }
+    
+    public void SetButtons(string inputName,bool value)
+    {
+        if (!buttonValues.ContainsKey(inputName))
+            buttonValues.Add(inputName,value);
+
+        buttonValues[inputName] = value;
+    }
+
+    public bool GetOrAddButtons(string inputName)
+    {
+        if (!buttonValues.ContainsKey(inputName))
+            buttonValues.Add(inputName,false);
+        return buttonValues[inputName];
+    }
+
+    public bool GetButtons(string inputName)
+    {
+#if UNITY_EDITOR
+        return GetOrAddButtons(inputName);
+#endif
+#if UNITY_ANDROID || UNITY_IOS
+        return GetOrAddButtons(inputName);
+#endif
+#if UNITY_STANDALONE
+        Input.GetButtons(inputName);
 #endif
     }
 }

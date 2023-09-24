@@ -16,13 +16,14 @@ public class PalletMover : ManejoPallets {
     private void Update() {
         switch (miInput) {
             case MoveType.WASD:
-                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.A)) {
+                if (!Tenencia() && Desde.Tenencia() && Input.GetAxis("Horizontal1") <= -1.0f) {
                     PrimerPaso();
                 }
-                if (Tenencia() && Input.GetKeyDown(KeyCode.S)) {
+                if (Tenencia() && Input.GetAxis("Vertical1") <= -1.0f)
+                {
                     SegundoPaso();
                 }
-                if (segundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.D)) {
+                if (segundoCompleto && Tenencia() && Input.GetAxis("Horizontal1") >= 1.0f) {
                     TercerPaso();
                 }
                 break;
@@ -42,15 +43,15 @@ public class PalletMover : ManejoPallets {
         }
     }
 
-    void PrimerPaso() {
+    public void PrimerPaso() {
         Desde.Dar(this);
         segundoCompleto = false;
     }
-    void SegundoPaso() {
+    public void SegundoPaso() {
         base.Pallets[0].transform.position = transform.position;
         segundoCompleto = true;
     }
-    void TercerPaso() {
+    public void TercerPaso() {
         Dar(Hasta);
         segundoCompleto = false;
     }

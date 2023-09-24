@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] ObjsCarrera;
     // Escena Menu
     public GameObject MenuCambas;
+    public GameObject MenuScene;
 
     //--------------------------------------------------------//
 
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour {
     {
         yield return null;
         //IniciarTutorial();
-        //  CambiarACarrera();
+        //CambiarACarrera();
         EmpezarMenu();
     }
 
@@ -148,6 +149,8 @@ public class GameManager : MonoBehaviour {
 
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
+        MenuCambas.SetActive(false);
+        MenuScene.SetActive(false);
     }
 
     public void EmpezarMenu()
@@ -158,6 +161,7 @@ public class GameManager : MonoBehaviour {
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
         MenuCambas.SetActive(true);
+        MenuScene.SetActive(true);
     }
 
     public void EmpezarCarrera() {
@@ -166,6 +170,7 @@ public class GameManager : MonoBehaviour {
 
         Player2.GetComponent<Frenado>().RestaurarVel();
         Player2.GetComponent<ControlDireccion>().Habilitado = true;
+        MenuScene.SetActive(false);
     }
 
     void FinalizarCarrera() {
@@ -247,6 +252,7 @@ public class GameManager : MonoBehaviour {
         }
         
         MenuCambas.SetActive(false);
+        MenuScene.SetActive(false);
 
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten

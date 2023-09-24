@@ -11,12 +11,6 @@
         {
             "deviceId": "CQ30007CHK",
             "name": "com.Cheso.MobileDevTP1",
-            "processId": 9622,
-            "exited": true
-        },
-        {
-            "deviceId": "CQ30007CHK",
-            "name": "com.Cheso.MobileDevTP1",
             "processId": 7927,
             "exited": true
         },
@@ -24,6 +18,24 @@
             "deviceId": "CQ30007CHK",
             "name": "com.Cheso.MobileDevTP1",
             "processId": 18279,
+            "exited": true
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 26992,
+            "exited": true
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 28995,
+            "exited": true
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 30116,
             "exited": true
         }
     ],
