@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,10 @@ public class GameManager : MonoBehaviour {
     public float TiempoDeJuego = 60;
 
     public enum EstadoJuego { Calibrando, Jugando,Menu,Credits, Finalizado }
+    [Serializable] public enum DificultadJuego { FACIL,NORMAL,DIFICIL,NONE}
+
+    [SerializeField] private GameObject difficultyPanel;
+    [SerializeField] private GameObject gamemodePanel;
     public EstadoJuego EstAct = EstadoJuego.Menu;
 
     public Player Player1;
@@ -37,6 +42,8 @@ public class GameManager : MonoBehaviour {
     public GameObject[] ObjsCalibracion2;
     //la pista de carreras
     public GameObject[] ObjsCarrera;
+    public GameObject[] taxisObjects;
+    public GameObject[] boxObjects;
     // Escena Menu
     public GameObject MenuCambas;
     public GameObject MenuScene;
@@ -53,8 +60,6 @@ public class GameManager : MonoBehaviour {
     IEnumerator Start()
     {
         yield return null;
-        //IniciarTutorial();
-        //CambiarACarrera();
         EmpezarMenu();
     }
 
@@ -168,6 +173,27 @@ public class GameManager : MonoBehaviour {
         MenuScene.SetActive(true);
     }
 
+    public void SeleccionarGameMode()
+    {
+        TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
+        ConteoInicio.gameObject.SetActive(false);
+        CreditsScene.SetActive(false);
+        MenuCambas.SetActive(false);
+        
+        difficultyPanel.SetActive(false);
+        gamemodePanel.SetActive(true);
+    }
+    
+    public void SeleccionarDifficultad()
+    {
+        TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
+        ConteoInicio.gameObject.SetActive(false);
+        CreditsScene.SetActive(false);
+        
+        gamemodePanel.SetActive(false);
+        difficultyPanel.SetActive(true);
+    }
+
     public void EmpezarCreditos()
     {
         EstAct = EstadoJuego.Credits;
@@ -177,7 +203,7 @@ public class GameManager : MonoBehaviour {
 
     public void OpenItchio() { System.Diagnostics.Process.Start("https://chesog.itch.io"); }
 
-    public void EmpezarCarrera() {
+    private void EmpezarCarrera() {
         Player1.GetComponent<Frenado>().RestaurarVel();
         Player1.GetComponent<ControlDireccion>().Habilitado = true;
 
@@ -220,28 +246,37 @@ public class GameManager : MonoBehaviour {
         Player2.ContrDesc.FinDelJuego();
     }
 
-    //se encarga de posicionar la camara derecha para el jugador que esta a la derecha y viseversa
-    //void SetPosicion(PlayerInfo pjInf) {
-    //    pjInf.PJ.GetComponent<Visualizacion>().SetLado(pjInf.LadoAct);
-    //    //en este momento, solo la primera vez, deberia setear la otra camara asi no se superponen
-    //    pjInf.PJ.ContrCalib.IniciarTesteo();
-    //
-    //
-    //    if (pjInf.PJ == Player1) {
-    //        if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-    //            Player2.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Der);
-    //        else
-    //            Player2.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Izq);
-    //    }
-    //    else {
-    //        if (pjInf.LadoAct == Visualizacion.Lado.Izq)
-    //            Player1.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Der);
-    //        else
-    //            Player1.GetComponent<Visualizacion>().SetLado(Visualizacion.Lado.Izq);
-    //    }
-    //
-    //}
-
+    public void SetDifficulty(int difficulty)
+    {
+        DificultadJuego diff = (DificultadJuego)difficulty;
+        switch (diff)
+        {
+            case DificultadJuego.FACIL:
+                foreach (GameObject caja in boxObjects)
+                    caja.SetActive(false);
+                foreach (GameObject taxi in taxisObjects)
+                    taxi.SetActive(false);
+                break;
+            case DificultadJuego.NORMAL:
+                foreach (GameObject caja in boxObjects)
+                    caja.SetActive(true);
+                foreach (GameObject taxi in taxisObjects)
+                    taxi.SetActive(false);
+                break;
+            case DificultadJuego.DIFICIL:
+                foreach (GameObject caja in boxObjects)
+                    caja.SetActive(true);
+                foreach (GameObject taxi in taxisObjects)
+                    taxi.SetActive(true);
+                break;
+            case DificultadJuego.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(diff), diff, null);
+        }
+        CambiarACarrera();
+    }
+    
     //cambia a modo de carrera
     public void CambiarACarrera() {
 

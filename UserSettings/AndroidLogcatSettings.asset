@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "CQ30007CHK",
         "name": "com.Cheso.MobileDevTP1",
-        "processId": 1677,
+        "processId": 22641,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -48,6 +48,18 @@
             "deviceId": "CQ30007CHK",
             "name": "com.Cheso.MobileDevTP1",
             "processId": 1677,
+            "exited": false
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 19244,
+            "exited": false
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 22641,
             "exited": false
         }
     ],
