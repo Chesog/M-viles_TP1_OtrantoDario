@@ -72,7 +72,7 @@ public class InputManager
         return GetOrAddButtons(inputName);
 #endif
 #if UNITY_STANDALONE
-        Input.GetButtons(inputName);
+        return GetButtons(inputName);
 #endif
     }
 }
