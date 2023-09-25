@@ -43,7 +43,7 @@ public class FadeInicioFinal : MonoBehaviour
 			if(!MngAvisado)
 			{
 				MngAvisado = true;
-				Mng.DesaparecerGUI();
+				//Mng.DesaparecerGUI();
 			}
 		}
 				

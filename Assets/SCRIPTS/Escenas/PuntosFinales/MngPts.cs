@@ -237,7 +237,7 @@ public class MngPts : MonoBehaviour
 		}
 		
 	}
-	
+	public void OpenItchio() { System.Diagnostics.Process.Start("https://chesog.itch.io"); }
 	void SetCartelGanador()
 	{
 		if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq)
