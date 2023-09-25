@@ -1,11 +1,18 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class MngPts : MonoBehaviour 
 {
 	Rect R = new Rect();
-	
+
+	[SerializeField] private TextMeshProUGUI textP1;
+	[SerializeField] private TextMeshProUGUI textP2;
+	[SerializeField] private RectTransform rectP1;
+	[SerializeField] private RectTransform rectP2;
+	[SerializeField] private GameObject player1Wins;
+	[SerializeField] private GameObject player2Wins;
 	public float TiempEmpAnims = 2.5f;
 	float Tempo = 0;
 	
@@ -19,8 +26,10 @@ public class MngPts : MonoBehaviour
 	public GUISkin GS_Ganador;
 	
 	public GameObject Fondo;
+	public GameObject Creditos;
 	
 	public float TiempEspReiniciar = 10;
+	public float TiempEspReiniciarCreditos = 10;
 	
 	
 	public float TiempParpadeo = 0.7f;
@@ -60,7 +69,9 @@ public class MngPts : MonoBehaviour
 		TiempEspReiniciar -= Time.deltaTime;
 		if(TiempEspReiniciar <= 0 )
 		{
-			SceneManager.LoadScene(0);
+			TiempEspReiniciarCreditos -= Time.deltaTime;
+			if (TiempEspReiniciarCreditos <= 0) { SceneManager.LoadScene(0); }
+			Creditos.SetActive(true);
 		}
 		
 		
@@ -95,17 +106,22 @@ public class MngPts : MonoBehaviour
 				ActivadoAnims = true;
 			}
 		}
-		
-		
+		if(ActivadoAnims)
+		{
+			SetDineroText();
+			//SetDinero();
+			SetCartelGanador();
+		}
 	}
 	
 	void OnGUI()
 	{
-		if(ActivadoAnims)
-		{
-			SetDinero();
-			SetCartelGanador();
-		}
+		//if(ActivadoAnims)
+		//{
+		//	SetDineroText();
+		//	//SetDinero();
+		//	SetCartelGanador();
+		//}
 		
 		GUI.skin = null;
 	}
@@ -130,7 +146,57 @@ public class MngPts : MonoBehaviour
 			break;
 		}
 	}
-	
+
+	private void SetDineroText()
+	{
+		if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq)
+		{
+			textP1.SetText("$ " + DatosPartida.PtsGanador);
+			textP2.SetText("$ " + DatosPartida.PtsPerdedor);
+			if (textP1.isActiveAndEnabled)
+			{
+				TempoParpadeo += Time.deltaTime;
+				if (TempoParpadeo >= TiempParpadeo)
+				{
+					TempoParpadeo = 0.0f;
+					textP1.enabled = false;		
+				}
+			}
+			else
+			{
+				TempoParpadeo += Time.deltaTime;
+				if (TempoParpadeo >= TiempParpadeo)
+				{
+					TempoParpadeo = 0.0f;
+					textP1.enabled = true;		
+				}
+			}
+		}
+		else
+		{
+			textP1.SetText("$ " + DatosPartida.PtsPerdedor);
+			textP2.SetText("$ " + DatosPartida.PtsGanador);
+			if (textP2.isActiveAndEnabled)
+			{
+				TempoParpadeo += Time.deltaTime;
+				if (TempoParpadeo >= TiempParpadeo)
+				{
+					TempoParpadeo = 0.0f;
+					textP2.enabled = false;		
+				}
+			}
+			else
+			{
+				TempoParpadeo += Time.deltaTime;
+				if (TempoParpadeo >= TiempParpadeo)
+				{
+					TempoParpadeo = 0.0f;
+					textP2.enabled = true;		
+				}
+			}
+		}
+	}
+
 	void SetDinero()
 	{
 		GUI.skin = GS_Dinero;
@@ -174,14 +240,16 @@ public class MngPts : MonoBehaviour
 	
 	void SetCartelGanador()
 	{
-		GUI.skin = GS_Ganador;
-		
-		R.width = GanadorEsc.x * Screen.width/100;
-		R.height = GanadorEsc.y * Screen.height/100;
-		R.x = GanadorPos.x * Screen.width/100;
-		R.y = GanadorPos.y * Screen.height/100;
-		
-		GUI.Box(R, "");
+		if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq)
+		{
+			player2Wins.SetActive(false);
+			player1Wins.SetActive(true);
+		}
+		else
+		{
+			player1Wins.SetActive(false);
+			player2Wins.SetActive(true);
+		}
 	}
 	
 	public void DesaparecerGUI()

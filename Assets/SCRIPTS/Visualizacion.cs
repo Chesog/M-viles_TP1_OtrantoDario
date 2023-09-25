@@ -52,7 +52,8 @@ public class Visualizacion : MonoBehaviour
 
     //------------------------------------------------------------------//
 
-    void Awake() {
+    void Awake()
+    {
         enableInPlayerStates = uiRoot.GetComponentsInChildren<EnableInPlayerState>(includeInactive:true);
     }
 
