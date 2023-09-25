@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 
     public float TiempoDeJuego = 60;
 
-    public enum EstadoJuego { Calibrando, Jugando,Menu, Finalizado }
+    public enum EstadoJuego { Calibrando, Jugando,Menu,Credits, Finalizado }
     public EstadoJuego EstAct = EstadoJuego.Menu;
 
     public Player Player1;
@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour {
     // Escena Menu
     public GameObject MenuCambas;
     public GameObject MenuScene;
+    // Escena Creditos
+    public GameObject CreditsScene;
 
     //--------------------------------------------------------//
 
@@ -151,6 +153,7 @@ public class GameManager : MonoBehaviour {
         ConteoInicio.gameObject.SetActive(false);
         MenuCambas.SetActive(false);
         MenuScene.SetActive(false);
+        CreditsScene.SetActive(false);
     }
 
     public void EmpezarMenu()
@@ -160,9 +163,19 @@ public class GameManager : MonoBehaviour {
         
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
+        CreditsScene.SetActive(false);
         MenuCambas.SetActive(true);
         MenuScene.SetActive(true);
     }
+
+    public void EmpezarCreditos()
+    {
+        EstAct = EstadoJuego.Credits;
+        MenuCambas.SetActive(false);
+        CreditsScene.SetActive(true);
+    }
+
+    public void OpenItchio() { System.Diagnostics.Process.Start("https://chesog.itch.io"); }
 
     public void EmpezarCarrera() {
         Player1.GetComponent<Frenado>().RestaurarVel();
@@ -295,14 +308,10 @@ public class GameManager : MonoBehaviour {
 #endif
     }
 
-    public void FinCalibracion(int playerID) {
-        if (playerID == 0) {
-            Player1.FinTuto = true;
-
-        }
-        if (playerID == 1) {
-            Player2.FinTuto = true;
-        }
+    public void FinCalibracion(int playerID)
+    {
+        if (playerID == 0) { Player1.FinTuto = true; }
+        if (playerID == 1) { Player2.FinTuto = true; }
 
         if (Player1.FinTuto && Player2.FinTuto)
             CambiarACarrera();

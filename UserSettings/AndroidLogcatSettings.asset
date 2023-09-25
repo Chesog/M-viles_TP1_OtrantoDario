@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "CQ30007CHK",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "CQ30007CHK",
+        "name": "com.Cheso.MobileDevTP1",
+        "processId": 1677,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -37,6 +37,18 @@
             "name": "com.Cheso.MobileDevTP1",
             "processId": 30116,
             "exited": true
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 31518,
+            "exited": false
+        },
+        {
+            "deviceId": "CQ30007CHK",
+            "name": "com.Cheso.MobileDevTP1",
+            "processId": 1677,
+            "exited": false
         }
     ],
     "m_Tags": {
