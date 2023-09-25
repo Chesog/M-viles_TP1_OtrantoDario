@@ -75727,7 +75727,21 @@ MonoBehaviour:
   TiempoDeJuego: 60
   difficultyPanel: {fileID: 162519940}
   gamemodePanel: {fileID: 641806679}
+  botonesDescarga:
+  - {fileID: 1169473975}
+  - {fileID: 895281198}
+  - {fileID: 1580577388}
+  - {fileID: 717886226}
+  - {fileID: 1922489570}
+  - {fileID: 544838776}
+  - {fileID: 883106623}
+  - {fileID: 1632780798}
+  - {fileID: 1760619470}
+  - {fileID: 1088722431}
+  - {fileID: 782923144}
+  - {fileID: 1390669383}
   EstAct: 0
+  modeAct: 2
   Player1: {fileID: 13058}
   Player2: {fileID: 27660010}
   ConteoPosEsc:
@@ -75740,6 +75754,16 @@ MonoBehaviour:
   ConteoInicio: {fileID: 11471493}
   TiempoDeJuegoText: {fileID: 1222576993}
   TiempEspMuestraPts: 1
+  CamCali1: {fileID: 6356}
+  CamCond1: {fileID: 6358}
+  CamDesc1: {fileID: 6359}
+  CamCali2: {fileID: 6357}
+  CamCond2: {fileID: 3127}
+  CamDesc2: {fileID: 2682}
+  player2UI: {fileID: 1643806369}
+  tutorialScenePlayer2: {fileID: 3092}
+  bodyPlayer2: {fileID: 81345162}
+  unloadScenPlayer2: {fileID: 2683}
   PosCamionesCarrera:
   - {x: -17.5, y: 1, z: 5243}
   - {x: -4.2, y: 1, z: 5243}
@@ -83836,7 +83860,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 27660009}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 81345162}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7272f53a2d4f7174a8c5cb502d24bb0d, type: 3}
@@ -84667,6 +84691,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5347541340171372816, guid: db6086bb6cb40af44868891788f049a9,
     type: 3}
   m_PrefabInstance: {fileID: 60763189}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &81345162 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1753749050268706, guid: b81b1a58a0f14c9439cbdd014e695f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 27660009}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &112167750
 GameObject:
@@ -86630,7 +86660,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21
+  m_fontSize: 18.85
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -88509,7 +88539,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.7
+  m_fontSize: 21.3
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -90243,7 +90273,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.05
+  m_fontSize: 40.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -91596,7 +91626,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1599460281}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 13082}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetGamemode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1599460281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92073,7 +92115,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1791501901}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 13082}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SetGamemode
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1791501901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93712,7 +93766,7 @@ PrefabInstance:
     - target: {fileID: 7862633961234524272, guid: bc0b7b1785d92594fb4aa67571e46192,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SeleccionarDifficultad
+      value: SeleccionarGameMode
       objectReference: {fileID: 0}
     - target: {fileID: 7862633961234524274, guid: bc0b7b1785d92594fb4aa67571e46192,
         type: 3}

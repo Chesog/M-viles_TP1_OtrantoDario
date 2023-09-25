@@ -2,21 +2,46 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
 using System.Collections;
 using UnityEditor;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     public static GameManager Instancia;
 
     public float TiempoDeJuego = 60;
 
-    public enum EstadoJuego { Calibrando, Jugando,Menu,Credits, Finalizado }
-    [Serializable] public enum DificultadJuego { FACIL,NORMAL,DIFICIL,NONE}
+    public enum EstadoJuego
+    {
+        Calibrando,
+        Jugando,
+        Menu,
+        Credits,
+        Finalizado
+    }
+
+    [Serializable]
+    public enum DificultadJuego
+    {
+        FACIL,
+        NORMAL,
+        DIFICIL,
+        NONE
+    }
+
+    [Serializable]
+    public enum GameMode
+    {
+        SINGLEPLAYER,
+        MULTIPLAYER,
+        NONE
+    }
 
     [SerializeField] private GameObject difficultyPanel;
     [SerializeField] private GameObject gamemodePanel;
+    [SerializeField] private GameObject[] botonesDescarga;
     public EstadoJuego EstAct = EstadoJuego.Menu;
+    public GameMode modeAct = GameMode.NONE;
 
     public Player Player1;
     public Player Player2;
@@ -28,10 +53,26 @@ public class GameManager : MonoBehaviour {
     public Text TiempoDeJuegoText;
 
     public float TiempEspMuestraPts = 3;
+    
+    //-----------------------------------------------------------------------//
+    [SerializeField] private Camera CamCali1;
+    [SerializeField] private Camera CamCond1;
+    [SerializeField] private Camera CamDesc1;
+    
+    [SerializeField] private Camera CamCali2;
+    [SerializeField] private GameObject CamCond2;
+    [SerializeField] private GameObject CamDesc2;
+
+    [SerializeField] private GameObject player2UI;
+    [SerializeField] private GameObject tutorialScenePlayer2;
+    [SerializeField] private GameObject bodyPlayer2;
+    [SerializeField] private GameObject unloadScenPlayer2;
+    //-----------------------------------------------------------------------//
 
     //posiciones de los camiones dependientes del lado que les toco en la pantalla
     //la pos 0 es para la izquierda y la 1 para la derecha
     public Vector3[] PosCamionesCarrera = new Vector3[2];
+
     //posiciones de los camiones para el tutorial
     public Vector3 PosCamion1Tuto = Vector3.zero;
     public Vector3 PosCamion2Tuto = Vector3.zero;
@@ -39,16 +80,23 @@ public class GameManager : MonoBehaviour {
     //listas de GO que activa y desactiva por sub-escena
     //escena de tutorial
     public GameObject[] ObjsCalibracion1;
+
     public GameObject[] ObjsCalibracion2;
+
     //la pista de carreras
     public GameObject[] ObjsCarrera;
     public GameObject[] taxisObjects;
+
     public GameObject[] boxObjects;
+
     // Escena Menu
     public GameObject MenuCambas;
+
     public GameObject MenuScene;
+
     // Escena Creditos
     public GameObject CreditsScene;
+    [SerializeField] private static bool singlePlayer;
 
     //--------------------------------------------------------//
 
@@ -63,26 +111,35 @@ public class GameManager : MonoBehaviour {
         EmpezarMenu();
     }
 
-    void Update() {
+    void Update()
+    {
         //REINICIAR
-        if (Input.GetKey(KeyCode.Alpha0)) {
+        if (Input.GetKey(KeyCode.Alpha0))
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
         //CIERRA LA APLICACION
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
             Application.Quit();
         }
 
-        switch (EstAct) {
+        switch (EstAct)
+        {
             case EstadoJuego.Calibrando:
 
-                if (Input.GetKeyDown(KeyCode.W)) {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
                     Player1.Seleccionado = true;
                 }
 
-                if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                    Player2.Seleccionado = true;
+                if (modeAct == GameMode.MULTIPLAYER)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        Player2.Seleccionado = true;
+                    }
                 }
 
                 break;
@@ -91,30 +148,39 @@ public class GameManager : MonoBehaviour {
             case EstadoJuego.Jugando:
 
                 //SKIP LA CARRERA
-                if (Input.GetKey(KeyCode.Alpha9)) {
+                if (Input.GetKey(KeyCode.Alpha9))
+                {
                     TiempoDeJuego = 0;
                 }
 
-                if (TiempoDeJuego <= 0) {
+                if (TiempoDeJuego <= 0)
+                {
                     FinalizarCarrera();
                 }
 
-                if (ConteoRedresivo) {
+                if (ConteoRedresivo)
+                {
                     ConteoParaInicion -= T.GetDT();
-                    if (ConteoParaInicion < 0) {
+                    if (ConteoParaInicion < 0)
+                    {
                         EmpezarCarrera();
                         ConteoRedresivo = false;
                     }
                 }
-                else {
+                else
+                {
                     //baja el tiempo del juego
                     TiempoDeJuego -= T.GetDT();
                 }
-                if (ConteoRedresivo) {
-                    if (ConteoParaInicion > 1) {
+
+                if (ConteoRedresivo)
+                {
+                    if (ConteoParaInicion > 1)
+                    {
                         ConteoInicio.text = ConteoParaInicion.ToString("0");
                     }
-                    else {
+                    else
+                    {
                         ConteoInicio.text = "GO";
                     }
                 }
@@ -137,22 +203,73 @@ public class GameManager : MonoBehaviour {
         }
 
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(EstAct == EstadoJuego.Jugando && !ConteoRedresivo);
+        CheckPlayers();
+    }
+
+
+    private void CheckPlayers()
+    {
+        if (modeAct == GameMode.SINGLEPLAYER)
+        {
+            CamCali1.rect = new Rect(0f, 0f, 1f, 1f);
+            CamCond1.rect = new Rect(0f, 0f, 1f, 1f);
+            CamDesc1.rect = new Rect(0f, 0f, 1f, 1f);
+
+            player2UI.SetActive(false);
+            tutorialScenePlayer2.SetActive(false);
+            CamCond2.SetActive(false);
+            bodyPlayer2.SetActive(false);
+            unloadScenPlayer2.SetActive(false);
+        }
+        else if (modeAct == GameMode.MULTIPLAYER)
+        {
+            CamCali1.rect = new Rect(0f, 0f, 0.5f, 1f);
+            CamCond1.rect = new Rect(0f, 0f, 0.5f, 1f);
+            CamDesc1.rect = new Rect(0f, 0f, 0.5f, 1f);
+
+            player2UI.SetActive(true);
+            tutorialScenePlayer2.SetActive(true);
+            CamCond2.SetActive(true);
+            bodyPlayer2.SetActive(true);
+            unloadScenPlayer2.SetActive(true);
+        }
     }
 
     //----------------------------------------------------------//
 
-    public void IniciarTutorial() {
-        for (int i = 0; i < ObjsCalibracion1.Length; i++) {
-            ObjsCalibracion1[i].SetActive(true);
-            ObjsCalibracion2[i].SetActive(true);
+    public void IniciarTutorial()
+    {
+        for (int i = 0; i < botonesDescarga.Length; i++)
+        {
+#if UNITY_EDITOR
+            botonesDescarga[i].SetActive(false);
+#endif
+#if UNITY_ANDROID
+            botonesDescarga[i].SetActive(true);
+#endif
         }
 
-        for (int i = 0; i < ObjsCarrera.Length; i++) {
+        for (int i = 0; i < ObjsCalibracion1.Length; i++)
+        {
+            ObjsCalibracion1[i].SetActive(true);
+            ObjsCalibracion1[i].GetComponentInChildren<PalletMover>().enabled = true;
+            if (modeAct == GameMode.MULTIPLAYER)
+            {
+                ObjsCalibracion2[i].SetActive(true);
+                ObjsCalibracion2[i].GetComponentInChildren<PalletMover>().enabled = true;
+            }
+        }
+
+        for (int i = 0; i < ObjsCarrera.Length; i++)
+        {
             ObjsCarrera[i].SetActive(false);
         }
 
         Player1.CambiarATutorial();
-        Player2.CambiarATutorial();
+        if (modeAct == GameMode.MULTIPLAYER)
+        {
+            Player2.CambiarATutorial();
+        }
 
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
@@ -178,18 +295,17 @@ public class GameManager : MonoBehaviour {
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
         CreditsScene.SetActive(false);
-        MenuCambas.SetActive(false);
-        
+
         difficultyPanel.SetActive(false);
         gamemodePanel.SetActive(true);
     }
-    
+
     public void SeleccionarDifficultad()
     {
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
         CreditsScene.SetActive(false);
-        
+
         gamemodePanel.SetActive(false);
         difficultyPanel.SetActive(true);
     }
@@ -201,23 +317,32 @@ public class GameManager : MonoBehaviour {
         CreditsScene.SetActive(true);
     }
 
-    public void OpenItchio() { System.Diagnostics.Process.Start("https://chesog.itch.io"); }
+    public void OpenItchio()
+    {
+        System.Diagnostics.Process.Start("https://chesog.itch.io");
+    }
 
-    private void EmpezarCarrera() {
+    private void EmpezarCarrera()
+    {
         Player1.GetComponent<Frenado>().RestaurarVel();
         Player1.GetComponent<ControlDireccion>().Habilitado = true;
+        if (modeAct == GameMode.MULTIPLAYER)
+        {
+            Player2.GetComponent<Frenado>().RestaurarVel();
+            Player2.GetComponent<ControlDireccion>().Habilitado = true;
+        }
 
-        Player2.GetComponent<Frenado>().RestaurarVel();
-        Player2.GetComponent<ControlDireccion>().Habilitado = true;
         MenuScene.SetActive(false);
     }
 
-    void FinalizarCarrera() {
+    void FinalizarCarrera()
+    {
         EstAct = GameManager.EstadoJuego.Finalizado;
 
         TiempoDeJuego = 0;
-        
-        if (Player1.Dinero > Player2.Dinero) {
+
+        if (Player1.Dinero > Player2.Dinero)
+        {
             //lado que gano
             if (Player1.LadoActual == Visualizacion.Lado.Der)
                 DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
@@ -227,7 +352,8 @@ public class GameManager : MonoBehaviour {
             DatosPartida.PtsGanador = Player1.Dinero;
             DatosPartida.PtsPerdedor = Player2.Dinero;
         }
-        else {
+        else
+        {
             //lado que gano
             if (Player2.LadoActual == Visualizacion.Lado.Der)
                 DatosPartida.LadoGanadaor = DatosPartida.Lados.Der;
@@ -240,10 +366,16 @@ public class GameManager : MonoBehaviour {
         }
 
         Player1.GetComponent<Frenado>().Frenar();
-        Player2.GetComponent<Frenado>().Frenar();
-
+        if (modeAct == GameMode.MULTIPLAYER) {Player2.GetComponent<Frenado>().Frenar(); }
+        
         Player1.ContrDesc.FinDelJuego();
-        Player2.ContrDesc.FinDelJuego();
+        if (modeAct == GameMode.MULTIPLAYER) {Player2.ContrDesc.FinDelJuego();}
+    }
+
+    public void SetGamemode(int IsSinglePlayer)
+    {
+        modeAct = (GameMode)IsSinglePlayer;
+       SeleccionarDifficultad();
     }
 
     public void SetDifficulty(int difficulty)
@@ -274,63 +406,77 @@ public class GameManager : MonoBehaviour {
             default:
                 throw new ArgumentOutOfRangeException(nameof(diff), diff, null);
         }
-        CambiarACarrera();
-    }
-    
-    //cambia a modo de carrera
-    public void CambiarACarrera() {
 
+        IniciarTutorial();
+    }
+
+    //cambia a modo de carrera
+    public void CambiarACarrera()
+    {
         EstAct = GameManager.EstadoJuego.Jugando;
 
-        for (int i = 0; i < ObjsCarrera.Length; i++) {
+        for (int i = 0; i < ObjsCarrera.Length; i++)
+        {
             ObjsCarrera[i].SetActive(true);
         }
 
         //desactivacion de la calibracion
         Player1.FinCalibrado = true;
 
-        for (int i = 0; i < ObjsCalibracion1.Length; i++) {
+        for (int i = 0; i < ObjsCalibracion1.Length; i++)
+        {
             ObjsCalibracion1[i].SetActive(false);
         }
 
-        Player2.FinCalibrado = true;
+        if (modeAct == GameMode.MULTIPLAYER)
+        {
+            Player2.FinCalibrado = true;
 
-        for (int i = 0; i < ObjsCalibracion2.Length; i++) {
-            ObjsCalibracion2[i].SetActive(false);
+            for (int i = 0; i < ObjsCalibracion2.Length; i++)
+            {
+                ObjsCalibracion2[i].SetActive(false);
+            }
         }
-        
         MenuCambas.SetActive(false);
         MenuScene.SetActive(false);
 
 
         //posiciona los camiones dependiendo de que lado de la pantalla esten
-        if (Player1.LadoActual == Visualizacion.Lado.Izq) {
+        if (Player1.LadoActual == Visualizacion.Lado.Izq)
+        {
             Player1.gameObject.transform.position = PosCamionesCarrera[0];
-            Player2.gameObject.transform.position = PosCamionesCarrera[1];
+            if (modeAct == GameMode.MULTIPLAYER) { Player2.gameObject.transform.position = PosCamionesCarrera[1]; }
         }
-        else {
+        else
+        {
             Player1.gameObject.transform.position = PosCamionesCarrera[1];
-            Player2.gameObject.transform.position = PosCamionesCarrera[0];
+            if (modeAct == GameMode.MULTIPLAYER) { Player2.gameObject.transform.position = PosCamionesCarrera[0]; }
         }
 
         Player1.transform.forward = Vector3.forward;
         Player1.GetComponent<Frenado>().Frenar();
         Player1.CambiarAConduccion();
 
-        Player2.transform.forward = Vector3.forward;
-        Player2.GetComponent<Frenado>().Frenar();
-        Player2.CambiarAConduccion();
-
+        if (modeAct == GameMode.MULTIPLAYER)
+        {
+            Player2.transform.forward = Vector3.forward;
+            Player2.GetComponent<Frenado>().Frenar();
+            Player2.CambiarAConduccion();
+            //los deja andando
+            Player2.GetComponent<Frenado>().RestaurarVel();
+            //cancela la direccion
+            Player2.GetComponent<ControlDireccion>().Habilitado = false;
+            //les de direccion
+            Player2.transform.forward = Vector3.forward;
+        }
+        
         //los deja andando
         Player1.GetComponent<Frenado>().RestaurarVel();
-        Player2.GetComponent<Frenado>().RestaurarVel();
         //cancela la direccion
         Player1.GetComponent<ControlDireccion>().Habilitado = false;
-        Player2.GetComponent<ControlDireccion>().Habilitado = false;
         //les de direccion
         Player1.transform.forward = Vector3.forward;
-        Player2.transform.forward = Vector3.forward;
-
+        
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
     }
@@ -345,11 +491,24 @@ public class GameManager : MonoBehaviour {
 
     public void FinCalibracion(int playerID)
     {
-        if (playerID == 0) { Player1.FinTuto = true; }
-        if (playerID == 1) { Player2.FinTuto = true; }
+        if (playerID == 0)
+        {
+            Player1.FinTuto = true;
+        }
 
-        if (Player1.FinTuto && Player2.FinTuto)
-            CambiarACarrera();
+        if (modeAct == GameMode.MULTIPLAYER)
+        {
+            if (playerID == 1)
+            {
+                Player2.FinTuto = true;
+            }
+            if (Player1.FinTuto && Player2.FinTuto)
+                CambiarACarrera();
+        }
+        else if (modeAct == GameMode.SINGLEPLAYER)
+        {
+            if (Player1.FinTuto)
+                CambiarACarrera();
+        }
     }
-
 }

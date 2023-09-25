@@ -16,27 +16,14 @@ public class PalletMover : ManejoPallets {
     private void Update() {
         switch (miInput) {
             case MoveType.WASD:
-                if (!Tenencia() && Desde.Tenencia() && Input.GetAxis("Horizontal1") <= -1.0f) {
-                    PrimerPaso();
-                }
-                if (Tenencia() && Input.GetAxis("Vertical1") <= -1.0f)
-                {
-                    SegundoPaso();
-                }
-                if (segundoCompleto && Tenencia() && Input.GetAxis("Horizontal1") >= 1.0f) {
-                    TercerPaso();
-                }
+                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.A)) { PrimerPaso(); }
+                if (Tenencia() && Input.GetKeyDown(KeyCode.S)) { SegundoPaso(); }
+                if (segundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.D)) { TercerPaso();}
                 break;
             case MoveType.Arrows:
-                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.LeftArrow)) {
-                    PrimerPaso();
-                }
-                if (Tenencia() && Input.GetKeyDown(KeyCode.DownArrow)) {
-                    SegundoPaso();
-                }
-                if (segundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.RightArrow)) {
-                    TercerPaso();
-                }
+                if (!Tenencia() && Desde.Tenencia() && Input.GetKeyDown(KeyCode.LeftArrow)) { PrimerPaso(); }
+                if (Tenencia() && Input.GetKeyDown(KeyCode.DownArrow)) { SegundoPaso(); }
+                if (segundoCompleto && Tenencia() && Input.GetKeyDown(KeyCode.RightArrow)) { TercerPaso(); }
                 break;
             default:
                 break;
