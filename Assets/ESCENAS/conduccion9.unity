@@ -77393,6 +77393,8 @@ MonoBehaviour:
   CamCali2: {fileID: 6357}
   CamCond2: {fileID: 3127}
   CamDesc2: {fileID: 2682}
+  player1UI: {fileID: 1187412604}
+  player1UISinglePlayer: {fileID: 0}
   player2UI: {fileID: 1643806369}
   tutorialScenePlayer2: {fileID: 3092}
   bodyPlayer2: {fileID: 81345162}
@@ -85861,7 +85863,7 @@ PrefabInstance:
     - target: {fileID: 5347541339907708173, guid: db6086bb6cb40af44868891788f049a9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5347541339907708173, guid: db6086bb6cb40af44868891788f049a9,
         type: 3}
@@ -86490,7 +86492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &162519941
 RectTransform:
   m_ObjectHideFlags: 0
@@ -86503,6 +86505,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2090464720}
   - {fileID: 1093537179}
   - {fileID: 1844089773}
   - {fileID: 395930642}
@@ -87147,7 +87150,7 @@ RectTransform:
   - {fileID: 1163580813}
   - {fileID: 1276757743}
   m_Father: {fileID: 162519941}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.36273223}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -87198,10 +87201,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13082}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetDifficulty
-        m_Mode: 3
+      - m_Target: {fileID: 641607981}
+        m_TargetAssemblyTypeName: ButtonsSelection, Assembly-CSharp
+        m_MethodName: SetNormal
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -87590,7 +87593,7 @@ RectTransform:
   - {fileID: 243081350}
   - {fileID: 282921452}
   m_Father: {fileID: 865468525}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -88160,6 +88163,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637485994}
   m_CullTransparentMesh: 1
+--- !u!1 &641607979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641607980}
+  - component: {fileID: 641607981}
+  m_Layer: 0
+  m_Name: Dificulty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &641607980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641607979}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -550.5, y: -216, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2090464720}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &641607981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641607979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5999245f57e99145b68859ce7fa43fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &641806679
 GameObject:
   m_ObjectHideFlags: 0
@@ -89340,8 +89387,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1187412605}
-  - {fileID: 60763190}
   - {fileID: 611983552}
+  - {fileID: 60763190}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -90032,7 +90079,7 @@ RectTransform:
   - {fileID: 1791759924}
   - {fileID: 1454404020}
   m_Father: {fileID: 162519941}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.22185357}
   m_AnchorMax: {x: 1, y: 0.36273223}
@@ -90083,10 +90130,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13082}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetDifficulty
-        m_Mode: 3
+      - m_Target: {fileID: 641607981}
+        m_TargetAssemblyTypeName: ButtonsSelection, Assembly-CSharp
+        m_MethodName: SetHard
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -90442,7 +90489,7 @@ RectTransform:
   - {fileID: 1349879986}
   - {fileID: 620396975}
   m_Father: {fileID: 162519941}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.80270714}
   m_AnchorMax: {x: 1, y: 0.91263396}
@@ -91110,7 +91157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5864937, y: 0.5}
   m_AnchorMax: {x: 0.845, y: 0.91732204}
-  m_AnchoredPosition: {x: -0.00012207031, y: -0.000015258789}
+  m_AnchoredPosition: {x: -0.00024414062, y: -0.000015258789}
   m_SizeDelta: {x: 0.000045776, y: -0.000038147}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1229489481
@@ -92844,7 +92891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stick: {fileID: 1598453767}
   background: {fileID: 1220810327}
-  player: 2
+  player: 1
   limit: 250
 --- !u!1 &1530065132
 GameObject:
@@ -92982,7 +93029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stick: {fileID: 1928078966}
   background: {fileID: 850968121}
-  player: 1
+  player: 2
   limit: 250
 --- !u!225 &1568155157
 CanvasGroup:
@@ -94069,7 +94116,7 @@ RectTransform:
   - {fileID: 729805344}
   - {fileID: 1430373618}
   m_Father: {fileID: 162519941}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.637}
@@ -94120,10 +94167,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 13082}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: SetDifficulty
-        m_Mode: 3
+      - m_Target: {fileID: 641607981}
+        m_TargetAssemblyTypeName: ButtonsSelection, Assembly-CSharp
+        m_MethodName: SetEasy
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -95234,6 +95281,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2054161130}
   m_CullTransparentMesh: 1
+--- !u!1 &2090464719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2090464720}
+  - component: {fileID: 2090464721}
+  m_Layer: 0
+  m_Name: DificultyObserver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2090464720
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090464719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 641607980}
+  m_Father: {fileID: 162519941}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2090464721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090464719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a34f378bdd7dc458c4d71c80c00567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selection: {fileID: 641607981}
 --- !u!1001 &493612110406536824
 PrefabInstance:
   m_ObjectHideFlags: 0

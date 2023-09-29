@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
     public GameObject CamCond2;
     public GameObject CamDesc2;
 
+    public GameObject player1UI;
+    public GameObject player1UISinglePlayer;
     public GameObject player2UI;
     public GameObject tutorialScenePlayer2;
     public GameObject bodyPlayer2;
@@ -217,6 +219,7 @@ public class GameManager : MonoBehaviour
                 CamCond1.rect = new Rect(0f, 0f, 1f, 1f);
                 CamDesc1.rect = new Rect(0f, 0f, 1f, 1f);
 
+
                 player2UI.SetActive(false);
                 tutorialScenePlayer2.SetActive(false);
                 CamCond2.SetActive(false);
@@ -227,7 +230,7 @@ public class GameManager : MonoBehaviour
                 CamCali1.rect = new Rect(0f, 0f, 0.5f, 1f);
                 CamCond1.rect = new Rect(0f, 0f, 0.5f, 1f);
                 CamDesc1.rect = new Rect(0f, 0f, 0.5f, 1f);
-
+                
                 player2UI.SetActive(true);
                 tutorialScenePlayer2.SetActive(true);
                 CamCond2.SetActive(true);

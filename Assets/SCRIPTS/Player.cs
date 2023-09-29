@@ -96,6 +96,11 @@ public class Player : MonoBehaviour
 		MiVisualizacion.CambiarAMenu();
 	}
 
+	public void ApagarMenuCam()
+	{
+		MiVisualizacion.ApagarCamaras();
+	}
+
 	public void CambiarAConduccion()
 	{
 		EstAct = Player.Estados.EnConduccion;

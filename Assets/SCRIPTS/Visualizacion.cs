@@ -115,6 +115,14 @@ public class Visualizacion : MonoBehaviour
 		Array.ForEach(enableInPlayerStates, e => e.SetPlayerState(Pj.EstAct));
 	}
 
+	public void ApagarCamaras()
+	{
+		CamCalibracion.enabled = false;
+		CamConduccion.enabled = false;
+		CamDescarga.enabled = false;
+		CamMenu.enabled = false;
+	}
+
 	public void CambiarAConduccion()
 	{
 		CamCalibracion.enabled = false;
