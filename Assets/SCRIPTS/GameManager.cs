@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public float TiempoDeJuego = 60;
 
+    [Serializable]
     public enum EstadoJuego
     {
         Calibrando,
@@ -53,20 +54,20 @@ public class GameManager : MonoBehaviour
     public Text TiempoDeJuegoText;
 
     public float TiempEspMuestraPts = 3;
-    
-    //-----------------------------------------------------------------------//
-    [SerializeField] private Camera CamCali1;
-    [SerializeField] private Camera CamCond1;
-    [SerializeField] private Camera CamDesc1;
-    
-    [SerializeField] private Camera CamCali2;
-    [SerializeField] private GameObject CamCond2;
-    [SerializeField] private GameObject CamDesc2;
 
-    [SerializeField] private GameObject player2UI;
-    [SerializeField] private GameObject tutorialScenePlayer2;
-    [SerializeField] private GameObject bodyPlayer2;
-    [SerializeField] private GameObject unloadScenPlayer2;
+    //-----------------------------------------------------------------------//
+    public Camera CamCali1;
+    public Camera CamCond1;
+    public Camera CamDesc1;
+
+    public Camera CamCali2;
+    public GameObject CamCond2;
+    public GameObject CamDesc2;
+
+    public GameObject player2UI;
+    public GameObject tutorialScenePlayer2;
+    public GameObject bodyPlayer2;
+    public GameObject unloadScenPlayer2;
     //-----------------------------------------------------------------------//
 
     //posiciones de los camiones dependientes del lado que les toco en la pantalla
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        GameManager.Instancia = this;
+        Instancia = this;
     }
 
     IEnumerator Start()
@@ -209,29 +210,34 @@ public class GameManager : MonoBehaviour
 
     private void CheckPlayers()
     {
-        if (modeAct == GameMode.SINGLEPLAYER)
+        switch (modeAct)
         {
-            CamCali1.rect = new Rect(0f, 0f, 1f, 1f);
-            CamCond1.rect = new Rect(0f, 0f, 1f, 1f);
-            CamDesc1.rect = new Rect(0f, 0f, 1f, 1f);
+            case GameMode.SINGLEPLAYER:
+                CamCali1.rect = new Rect(0f, 0f, 1f, 1f);
+                CamCond1.rect = new Rect(0f, 0f, 1f, 1f);
+                CamDesc1.rect = new Rect(0f, 0f, 1f, 1f);
 
-            player2UI.SetActive(false);
-            tutorialScenePlayer2.SetActive(false);
-            CamCond2.SetActive(false);
-            bodyPlayer2.SetActive(false);
-            unloadScenPlayer2.SetActive(false);
-        }
-        else if (modeAct == GameMode.MULTIPLAYER)
-        {
-            CamCali1.rect = new Rect(0f, 0f, 0.5f, 1f);
-            CamCond1.rect = new Rect(0f, 0f, 0.5f, 1f);
-            CamDesc1.rect = new Rect(0f, 0f, 0.5f, 1f);
+                player2UI.SetActive(false);
+                tutorialScenePlayer2.SetActive(false);
+                CamCond2.SetActive(false);
+                bodyPlayer2.SetActive(false);
+                unloadScenPlayer2.SetActive(false);
+                break;
+            case GameMode.MULTIPLAYER:
+                CamCali1.rect = new Rect(0f, 0f, 0.5f, 1f);
+                CamCond1.rect = new Rect(0f, 0f, 0.5f, 1f);
+                CamDesc1.rect = new Rect(0f, 0f, 0.5f, 1f);
 
-            player2UI.SetActive(true);
-            tutorialScenePlayer2.SetActive(true);
-            CamCond2.SetActive(true);
-            bodyPlayer2.SetActive(true);
-            unloadScenPlayer2.SetActive(true);
+                player2UI.SetActive(true);
+                tutorialScenePlayer2.SetActive(true);
+                CamCond2.SetActive(true);
+                bodyPlayer2.SetActive(true);
+                unloadScenPlayer2.SetActive(true);
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -249,26 +255,40 @@ public class GameManager : MonoBehaviour
 #endif
         }
 
-        for (int i = 0; i < ObjsCalibracion1.Length; i++)
+
+        switch (modeAct)
         {
-            ObjsCalibracion1[i].SetActive(true);
-            ObjsCalibracion1[i].GetComponentInChildren<PalletMover>().enabled = true;
-            if (modeAct == GameMode.MULTIPLAYER)
-            {
-                ObjsCalibracion2[i].SetActive(true);
-                ObjsCalibracion2[i].GetComponentInChildren<PalletMover>().enabled = true;
-            }
+            case GameMode.SINGLEPLAYER:
+                for (int i = 0; i < ObjsCalibracion1.Length; i++)
+                {
+                    ObjsCalibracion1[i].SetActive(true);
+                    ObjsCalibracion1[i].GetComponentInChildren<PalletMover>().enabled = true;
+                }
+
+                Player1.CambiarATutorial();
+                break;
+            case GameMode.MULTIPLAYER:
+                for (int i = 0; i < ObjsCalibracion1.Length; i++)
+                {
+                    ObjsCalibracion1[i].SetActive(true);
+                    ObjsCalibracion1[i].GetComponentInChildren<PalletMover>().enabled = true;
+                    ObjsCalibracion2[i].SetActive(true);
+                    ObjsCalibracion2[i].GetComponentInChildren<PalletMover>().enabled = true;
+                }
+
+                Player1.CambiarATutorial();
+                Player2.CambiarATutorial();
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
+
 
         for (int i = 0; i < ObjsCarrera.Length; i++)
         {
             ObjsCarrera[i].SetActive(false);
-        }
-
-        Player1.CambiarATutorial();
-        if (modeAct == GameMode.MULTIPLAYER)
-        {
-            Player2.CambiarATutorial();
         }
 
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
@@ -282,7 +302,7 @@ public class GameManager : MonoBehaviour
     {
         Player1.CambiarAMenu();
         Player2.CambiarAMenu();
-        
+
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
         CreditsScene.SetActive(false);
@@ -324,12 +344,22 @@ public class GameManager : MonoBehaviour
 
     private void EmpezarCarrera()
     {
-        Player1.GetComponent<Frenado>().RestaurarVel();
-        Player1.GetComponent<ControlDireccion>().Habilitado = true;
-        if (modeAct == GameMode.MULTIPLAYER)
+        switch (modeAct)
         {
-            Player2.GetComponent<Frenado>().RestaurarVel();
-            Player2.GetComponent<ControlDireccion>().Habilitado = true;
+            case GameMode.SINGLEPLAYER:
+                Player1.GetComponent<Frenado>().RestaurarVel();
+                Player1.GetComponent<ControlDireccion>().Habilitado = true;
+                break;
+            case GameMode.MULTIPLAYER:
+                Player1.GetComponent<Frenado>().RestaurarVel();
+                Player1.GetComponent<ControlDireccion>().Habilitado = true;
+                Player2.GetComponent<Frenado>().RestaurarVel();
+                Player2.GetComponent<ControlDireccion>().Habilitado = true;
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         MenuScene.SetActive(false);
@@ -365,17 +395,29 @@ public class GameManager : MonoBehaviour
             DatosPartida.PtsPerdedor = Player1.Dinero;
         }
 
-        Player1.GetComponent<Frenado>().Frenar();
-        if (modeAct == GameMode.MULTIPLAYER) {Player2.GetComponent<Frenado>().Frenar(); }
-        
-        Player1.ContrDesc.FinDelJuego();
-        if (modeAct == GameMode.MULTIPLAYER) {Player2.ContrDesc.FinDelJuego();}
+        switch (modeAct)
+        {
+            case GameMode.SINGLEPLAYER:
+                Player1.GetComponent<Frenado>().Frenar();
+                Player1.ContrDesc.FinDelJuego();
+                break;
+            case GameMode.MULTIPLAYER:
+                Player1.GetComponent<Frenado>().Frenar();
+                Player1.ContrDesc.FinDelJuego();
+                Player2.GetComponent<Frenado>().Frenar();
+                Player2.ContrDesc.FinDelJuego();
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     public void SetGamemode(int IsSinglePlayer)
     {
         modeAct = (GameMode)IsSinglePlayer;
-       SeleccionarDifficultad();
+        SeleccionarDifficultad();
     }
 
     public void SetDifficulty(int difficulty)
@@ -421,62 +463,82 @@ public class GameManager : MonoBehaviour
         }
 
         //desactivacion de la calibracion
-        Player1.FinCalibrado = true;
-
-        for (int i = 0; i < ObjsCalibracion1.Length; i++)
+        switch (modeAct)
         {
-            ObjsCalibracion1[i].SetActive(false);
+            case GameMode.SINGLEPLAYER:
+                Player1.FinCalibrado = true;
+                for (int i = 0; i < ObjsCalibracion1.Length; i++)
+                {
+                    ObjsCalibracion1[i].SetActive(false);
+                }
+
+                //posiciona los camiones dependiendo de que lado de la pantalla esten
+                if (Player1.LadoActual == Visualizacion.Lado.Izq)
+                {
+                    Player1.gameObject.transform.position = PosCamionesCarrera[0];
+                }
+                else
+                {
+                    Player1.gameObject.transform.position = PosCamionesCarrera[1];
+                }
+                
+                Player1.transform.forward = Vector3.forward;
+                Player1.GetComponent<Frenado>().Frenar();
+                Player1.CambiarAConduccion();
+                
+                //los deja andando
+                Player1.GetComponent<Frenado>().RestaurarVel();
+                //cancela la direccion
+                Player1.GetComponent<ControlDireccion>().Habilitado = false;
+                //les de direccion
+                Player1.transform.forward = Vector3.forward;
+                break;
+            case GameMode.MULTIPLAYER:
+                Player2.FinCalibrado = true;
+                Player1.FinCalibrado = true;
+                for (int i = 0; i < ObjsCalibracion1.Length; i++)
+                {
+                    ObjsCalibracion1[i].SetActive(false);
+                }
+                for (int i = 0; i < ObjsCalibracion2.Length; i++)
+                {
+                    ObjsCalibracion2[i].SetActive(false);
+                }
+
+                //posiciona los camiones dependiendo de que lado de la pantalla esten
+                if (Player1.LadoActual == Visualizacion.Lado.Izq)
+                {
+                    Player1.gameObject.transform.position = PosCamionesCarrera[0];
+                    Player2.gameObject.transform.position = PosCamionesCarrera[1];
+                }
+                else
+                {
+                    Player1.gameObject.transform.position = PosCamionesCarrera[1];
+                    Player2.gameObject.transform.position = PosCamionesCarrera[0];
+                }
+                
+                Player1.transform.forward = Vector3.forward;
+                Player1.GetComponent<Frenado>().Frenar();
+                Player1.CambiarAConduccion();
+                
+                Player2.transform.forward = Vector3.forward;
+                Player2.GetComponent<Frenado>().Frenar();
+                Player2.CambiarAConduccion();
+                //los deja andando
+                Player2.GetComponent<Frenado>().RestaurarVel();
+                //cancela la direccion
+                Player2.GetComponent<ControlDireccion>().Habilitado = false;
+                //les de direccion
+                Player2.transform.forward = Vector3.forward;
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
-        if (modeAct == GameMode.MULTIPLAYER)
-        {
-            Player2.FinCalibrado = true;
-
-            for (int i = 0; i < ObjsCalibracion2.Length; i++)
-            {
-                ObjsCalibracion2[i].SetActive(false);
-            }
-        }
         MenuCambas.SetActive(false);
         MenuScene.SetActive(false);
-
-
-        //posiciona los camiones dependiendo de que lado de la pantalla esten
-        if (Player1.LadoActual == Visualizacion.Lado.Izq)
-        {
-            Player1.gameObject.transform.position = PosCamionesCarrera[0];
-            if (modeAct == GameMode.MULTIPLAYER) { Player2.gameObject.transform.position = PosCamionesCarrera[1]; }
-        }
-        else
-        {
-            Player1.gameObject.transform.position = PosCamionesCarrera[1];
-            if (modeAct == GameMode.MULTIPLAYER) { Player2.gameObject.transform.position = PosCamionesCarrera[0]; }
-        }
-
-        Player1.transform.forward = Vector3.forward;
-        Player1.GetComponent<Frenado>().Frenar();
-        Player1.CambiarAConduccion();
-
-        if (modeAct == GameMode.MULTIPLAYER)
-        {
-            Player2.transform.forward = Vector3.forward;
-            Player2.GetComponent<Frenado>().Frenar();
-            Player2.CambiarAConduccion();
-            //los deja andando
-            Player2.GetComponent<Frenado>().RestaurarVel();
-            //cancela la direccion
-            Player2.GetComponent<ControlDireccion>().Habilitado = false;
-            //les de direccion
-            Player2.transform.forward = Vector3.forward;
-        }
-        
-        //los deja andando
-        Player1.GetComponent<Frenado>().RestaurarVel();
-        //cancela la direccion
-        Player1.GetComponent<ControlDireccion>().Habilitado = false;
-        //les de direccion
-        Player1.transform.forward = Vector3.forward;
-        
         TiempoDeJuegoText.transform.parent.gameObject.SetActive(false);
         ConteoInicio.gameObject.SetActive(false);
     }
@@ -491,24 +553,32 @@ public class GameManager : MonoBehaviour
 
     public void FinCalibracion(int playerID)
     {
-        if (playerID == 0)
+        switch (modeAct)
         {
-            Player1.FinTuto = true;
-        }
-
-        if (modeAct == GameMode.MULTIPLAYER)
-        {
-            if (playerID == 1)
-            {
-                Player2.FinTuto = true;
-            }
-            if (Player1.FinTuto && Player2.FinTuto)
-                CambiarACarrera();
-        }
-        else if (modeAct == GameMode.SINGLEPLAYER)
-        {
-            if (Player1.FinTuto)
-                CambiarACarrera();
+            case GameMode.SINGLEPLAYER:
+                if (playerID == 0)
+                {
+                    Player1.FinTuto = true;
+                }
+                if (Player1.FinTuto)
+                    CambiarACarrera();
+                break;
+            case GameMode.MULTIPLAYER:
+                if (playerID == 0)
+                {
+                    Player1.FinTuto = true;
+                }
+                if (playerID == 1)
+                {
+                    Player2.FinTuto = true;
+                }
+                if (Player1.FinTuto && Player2.FinTuto)
+                    CambiarACarrera();
+                break;
+            case GameMode.NONE:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }
