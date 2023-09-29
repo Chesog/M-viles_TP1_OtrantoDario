@@ -259,6 +259,7 @@ public class GameManager : MonoBehaviour
         switch (modeAct)
         {
             case GameMode.SINGLEPLAYER:
+                
                 for (int i = 0; i < ObjsCalibracion1.Length; i++)
                 {
                     ObjsCalibracion1[i].SetActive(true);
