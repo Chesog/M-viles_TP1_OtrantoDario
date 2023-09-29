@@ -3,7 +3,7 @@ using UnityEngine;
 public class ControlDireccion : MonoBehaviour 
 {
 	float Giro = 0;
-	public int playerId = 1;
+	public int playerId;
 	
 	public bool Habilitado = true;
 	CarController carController;
