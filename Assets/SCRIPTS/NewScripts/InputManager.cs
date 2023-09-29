@@ -38,13 +38,13 @@ public class InputManager
     public float GetAxis(string inputName)
     {
 #if UNITY_EDITOR
-        return GetOrAddAxis(inputName) + Input.GetAxis(inputName);
+        return GetOrAddAxis(inputName) + Input.GetAxis(inputName);;
 #endif
 #if UNITY_ANDROID || UNITY_IOS
         return GetOrAddAxis(inputName);
 #endif
 #if UNITY_STANDALONE
-        Input.GetAxis(inputName);
+        return Input.GetAxis(inputName);
 #endif
     }
     

@@ -151,8 +151,10 @@ public class MngPts : MonoBehaviour
 	{
 		if (DatosPartida.LadoGanadaor == DatosPartida.Lados.Izq)
 		{
-			textP1.SetText("$ " + DatosPartida.PtsGanador);
-			textP2.SetText("$ " + DatosPartida.PtsPerdedor);
+			string p1Text = "$ " + DatosPartida.PtsGanador;
+			string p2Text = "$ " + DatosPartida.PtsPerdedor;
+			textP1.SetText(p1Text);
+			textP2.SetText(p2Text);
 			if (textP1.isActiveAndEnabled)
 			{
 				TempoParpadeo += Time.deltaTime;
@@ -174,8 +176,10 @@ public class MngPts : MonoBehaviour
 		}
 		else
 		{
-			textP1.SetText("$ " + DatosPartida.PtsPerdedor);
-			textP2.SetText("$ " + DatosPartida.PtsGanador);
+			string p1Text = "$ " + DatosPartida.PtsPerdedor;
+			string p2Text = "$ " + DatosPartida.PtsGanador;
+			textP1.SetText(p1Text);
+			textP2.SetText(p2Text);
 			if (textP2.isActiveAndEnabled)
 			{
 				TempoParpadeo += Time.deltaTime;
